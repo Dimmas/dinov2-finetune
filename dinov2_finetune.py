@@ -30,6 +30,10 @@ parser.add_argument('--log-dir', default='./', type=str, metavar='PATH',
                     help='path to directory where to log (default: current directory)')
 parser.add_argument('--data-dir', required=True, type=str, metavar='PATH',
                     help='path to the dataset')
+parser.add_argument('--resolution', '-r', default=224, type=int, metavar='N',
+                    help='train/val image resolution (default: 224)')
+parser.add_argument('--epochs', '-r', default=25, type=int, metavar='N',
+                    help='count of epochs')
 
 
 args = parser.parse_args()
@@ -56,7 +60,7 @@ class Dino(nn.Module):
         ).to(device)
 
         with torch.no_grad():
-            sample_input = torch.randn(1, 3, 224, 224).to(device)
+            sample_input = torch.randn(1, 3, args.resolution, args.resolution).to(device)
             sample_output = self.feature_model(sample_input)
 
         # get linear readout
@@ -77,13 +81,13 @@ class Dino(nn.Module):
 # Define transforms for the training and validation datasets
 data_transforms = {
     'train': transforms.Compose([
-        transforms.RandomResizedCrop(98),
+        transforms.RandomResizedCrop(args.resolution),
         transforms.RandomHorizontalFlip(),
         transforms.ToTensor(),
         transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
     ]),
     'val': transforms.Compose([
-        transforms.Resize(98),
+        transforms.Resize(args.resolution),
         transforms.ToTensor(),
         transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
     ]),
@@ -120,7 +124,7 @@ optimizer = optim.SGD(model.classifier.parameters(), lr=0.001, momentum=0.9)
 exp_lr_scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=7, gamma=0.1)
 
 # Train the model
-num_epochs = 30
+num_epochs = args.epochs
 best_acc = 0.0
 for epoch in range(num_epochs):
 
