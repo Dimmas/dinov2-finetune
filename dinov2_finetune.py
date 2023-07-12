@@ -32,7 +32,7 @@ parser.add_argument('--data-dir', required=True, type=str, metavar='PATH',
                     help='path to the dataset')
 parser.add_argument('--resolution', '-r', default=224, type=int, metavar='N',
                     help='train/val image resolution (default: 224)')
-parser.add_argument('--epochs', '-r', default=25, type=int, metavar='N',
+parser.add_argument('--epochs', '-e', default=25, type=int, metavar='N',
                     help='count of epochs')
 
 
