@@ -170,6 +170,7 @@ for epoch in range(num_epochs):
         if phase == 'val' and epoch_acc > best_acc:
             best_acc = epoch_acc
             torch.save(model.state_dict(), os.path.join(args.log_dir, 'best_model.pth'))
+            torch.save(model.state_dict(), os.path.join(args.log_dir, 'best_model.bin'), pickle_module=torch.serialization)
 
 
     print()
