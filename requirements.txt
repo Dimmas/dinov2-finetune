@@ -1,0 +1,4 @@
+fvcore
+torchmetrics
+xFormers
+omegaconf
