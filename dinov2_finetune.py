@@ -77,14 +77,13 @@ class Dino(nn.Module):
 # Define transforms for the training and validation datasets
 data_transforms = {
     'train': transforms.Compose([
-        transforms.RandomResizedCrop(224),
+        transforms.RandomResizedCrop(98),
         transforms.RandomHorizontalFlip(),
         transforms.ToTensor(),
         transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
     ]),
     'val': transforms.Compose([
-        transforms.Resize(256),
-        transforms.CenterCrop(224),
+        transforms.Resize(98),
         transforms.ToTensor(),
         transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
     ]),
@@ -121,7 +120,7 @@ optimizer = optim.SGD(model.classifier.parameters(), lr=0.001, momentum=0.9)
 exp_lr_scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=7, gamma=0.1)
 
 # Train the model
-num_epochs = 25
+num_epochs = 30
 best_acc = 0.0
 for epoch in range(num_epochs):
 
