@@ -175,7 +175,7 @@ for epoch in range(num_epochs):
             best_acc = epoch_acc
             torch.save(model.state_dict(), os.path.join(args.log_dir, 'best_model.pth'))
             
-            buffer = io.BytesIO()
+            buffer = BytesIO()
             torch.save(model.state_dict(), buffer)
             with open(os.path.join(args.log_dir, 'model.bin'), "wb") as f:
               f.write(buffer.getbuffer())
