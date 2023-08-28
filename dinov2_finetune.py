@@ -6,6 +6,7 @@ import torchvision.transforms as transforms
 from torchvision import datasets, models
 from torch.utils.data import DataLoader
 from functools import partial
+from io import BytesIO
 import time
 from tqdm import tqdm
 
@@ -173,6 +174,11 @@ for epoch in range(num_epochs):
         if phase == 'val' and epoch_acc > best_acc:
             best_acc = epoch_acc
             torch.save(model.state_dict(), os.path.join(args.log_dir, 'best_model.pth'))
+            
+            buffer = io.BytesIO()
+            torch.save(model.state_dict(), buffer)
+            with open(os.path.join(args.log_dir, 'model.bin'), "wb") as f:
+              f.write(buffer.getbuffer())
 
 
     print()
